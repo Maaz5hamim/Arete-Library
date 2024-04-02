@@ -1,7 +1,7 @@
 {
   "name": "arete-library",
   "version": "1.0.0",
-  "description": "code shared by multiple microservices of Arete",
+  "description": "Reuseable code for Arete development",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,13 +10,17 @@
     "type": "git",
     "url": "git+https://github.com/Maaz5hamim/Arete-Library.git"
   },
+  "keywords": [
+    "code",
+    "reuse"
+  ],
   "author": "Maaz Shamim",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Maaz5hamim/Arete-Library/issues"
   },
-  "publishConfig": {
-    "@Maaz5hamim:registry": "https://npm.pkg.github.com"
-  },
-  "homepage": "https://github.com/Maaz5hamim/Arete-Library#readme"
+  "homepage": "https://github.com/Maaz5hamim/Arete-Library#readme",
+  "dependencies": {
+    "mongoose": "^8.2.4"
+  }
 }
