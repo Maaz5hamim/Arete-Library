@@ -15,8 +15,11 @@ const studentSchema = new mongoose.Schema
         } 
     },
   erp: { type: Number, unique: true, required: true },
-  enrolledSections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Section'}]
+  enrolledSections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Section'}],
+  attemptedAssessments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Assessment' }]
 })
+
+studentSchema.index({ 'email': 1 })
 
 const Student = mongoose.model('Student', studentSchema);
 

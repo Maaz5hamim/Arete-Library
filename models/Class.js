@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const debug = require('debug')('mongoose')
 
 const classSchema = new mongoose.Schema
 ({
@@ -6,8 +7,6 @@ const classSchema = new mongoose.Schema
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', required: true },
     sections: [{type: mongoose.Schema.Types.ObjectId, ref: 'Section'}] 
 })
-
-classSchema.index({ teacher: 1 });
 
 const Class = mongoose.model('Class', classSchema)
 

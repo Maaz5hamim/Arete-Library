@@ -24,22 +24,16 @@ const assessmentSchema = new mongoose.Schema(
         finalScore: { type: Boolean, default: false },
     },
     questionBank: 
-    {
-        questions: 
-        [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Question'
-        }],
-        reusedQuestions: 
-        [{
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: 'Question'
-        }], 
-    }
+    [{
+        question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
+        reuse: { type: Boolean, default: false } 
+    }]
 }, 
 {
     timestamps: true,
 })
+
+assessmentSchema.index({ teacher: 1 });
 
 const Assessment = mongoose.model('assessment', assessmentSchema)
 
