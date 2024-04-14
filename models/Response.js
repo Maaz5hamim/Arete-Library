@@ -8,8 +8,7 @@ const responseSchema = new mongoose.Schema
     responses: 
     [{ 
         questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true }, 
-        selectedOptions: [String],
-        answer: String, 
+        answer: [String], 
         score: Number, 
         feedback: String 
     }]
