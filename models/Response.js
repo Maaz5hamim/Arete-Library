@@ -46,7 +46,6 @@ responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async
     }
 
     this._update.totalScore = totalScore
-    console.log(this._update)
 
     next()
 })
