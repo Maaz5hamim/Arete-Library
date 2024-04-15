@@ -12,45 +12,43 @@ const responseSchema = new mongoose.Schema
         answer: [String], 
         score: Number, 
         feedback: String 
-    }]
+    }],
+    totalScore: Number
 }, 
 { timestamps: true })
 
-responseSchema.pre('save', function(next) {
-    const responses = this.responses
+responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async function(next) {
+    const responses = this._update.responses
+    if (!responses) {return next()}
     let totalScore = 0
 
-    responses.forEach(response => 
+    for (const response of responses) 
     {
-        Question.findById(response.questionId, (err, question) => 
+        const question = await Question.findById(response.questionId)
+
+        if (question.type === 'True/False') 
         {
-            if (err) {
-                return next(err)
+            if (response.answer[0] === 'false' && !question.isTrue || response.answer[0] === 'true' && question.isTrue) {
+                response.score = question.points
+                totalScore += question.points
             }
-            if (!question) {
-                return next(new Error('Question not found'))
+            else{response.score = 0}
+        } 
+        else if (question.type === 'MCQ') 
+        {
+            const isAnswerCorrect = question.correctOptions.every(option => response.answer.includes(option))
+            if (isAnswerCorrect) {
+                response.score = question.points
+                totalScore += question.points
             }
+            else{response.score = 0}
+        }
+    }
 
-            if (question.type === 'True/False') {
-                if (response.answer[0] === 'false' && !question.isTrue || response.answer[0] === 'true' && question.isTrue) {
-                    response.score = question.points
-                    totalScore += question.points
-                }
-            } else if (question.type === 'MCQ') {
-                const selectedOptions = response.answer
+    this._update.totalScore = totalScore
+    console.log(this._update)
 
-                const isAnswerCorrect = correctOptions.every(option => selectedOptions.includes(question.correctOptions))
-                if (isAnswerCorrect) {
-                    response.score = question.points
-                    totalScore += question.points
-                }
-            }
-
-            this.totalScore = totalScore
-
-            next()
-        })
-    })
+    next()
 })
 
 responseSchema.index({ 'assessment': 1 })
