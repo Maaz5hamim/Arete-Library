@@ -47,7 +47,7 @@ responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async
         }
     }
 
-
+    this._update.submittedAt = Date.now()
     this._update.totalScore = totalScore
 
     next()
