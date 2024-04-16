@@ -5,15 +5,16 @@ const responseSchema = new mongoose.Schema
 ({
     assessment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assessment', required: true }, 
     student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true }, 
-    submitted: Date,
-    status: { type: String, enum: [ 'Active', 'Submitted'], default: 'Active' },  
     responses: 
     [{ 
         questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true }, 
         answer: [String], 
         score: Number, 
-        feedback: String 
+        feedback: String,
+        responseTime: Number 
     }],
+    submittedAt: Date,
+    status: { type: String, enum: [ 'Active', 'Submitted'], default: 'Active' },  
     totalScore: Number
 }, 
 { timestamps: true })
@@ -45,6 +46,7 @@ responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async
             else{response.score = 0}
         }
     }
+
 
     this._update.totalScore = totalScore
 
