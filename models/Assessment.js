@@ -1,5 +1,31 @@
 const mongoose = require('mongoose')
 
+const summarySchema = new mongoose.Schema(
+{
+    questions:
+    [
+        {
+            questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
+            totalResponses: Number,
+            totalSkipped: Number,
+            totalCorrect: Number,
+            averageResponseTime: Number,
+            highestScore: Number,
+            averageScore: Number
+        }
+    ],
+    participants:
+    [
+        {
+            studentId:{type: mongoose.Schema.Types.ObjectId, ref: 'Student'},
+            studentName: String,
+            sectionName: String,
+            response:{type: mongoose.Schema.Types.ObjectId, ref: 'Response'}
+        }
+    ]
+})
+
+
 const assessmentSchema = new mongoose.Schema(
 {
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', required: true },
@@ -27,7 +53,8 @@ const assessmentSchema = new mongoose.Schema(
     [{
         question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
         reuse: { type: Boolean, default: false } 
-    }]
+    }],
+    summary: summarySchema
 }, 
 {
     timestamps: true,
