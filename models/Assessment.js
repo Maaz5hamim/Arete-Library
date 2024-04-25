@@ -22,13 +22,15 @@ const summarySchema = new mongoose.Schema(
             sectionName: String,
             response:{type: mongoose.Schema.Types.ObjectId, ref: 'Response'}
         }
-    ]
+    ],
+    generated: {type: Date}
 })
 
 
 const assessmentSchema = new mongoose.Schema(
 {
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', required: true },
+    class: {type: String},
     title: { type: String, required: true },
     participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Section' }],
     description : {type: String},
