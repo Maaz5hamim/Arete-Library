@@ -2,10 +2,11 @@ const mongoose = require('mongoose')
 
 const summarySchema = new mongoose.Schema(
 {
+    responses: Number,
     questions:
     [
         {
-            questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
+            question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
             totalResponses: Number,
             totalSkipped: Number,
             totalCorrect: Number,
@@ -17,8 +18,8 @@ const summarySchema = new mongoose.Schema(
     participants:
     [
         {
-            studentId:{type: mongoose.Schema.Types.ObjectId, ref: 'Student'},
             studentName: String,
+            studentErp: Number,
             sectionName: String,
             response:{type: mongoose.Schema.Types.ObjectId, ref: 'Response'}
         }
