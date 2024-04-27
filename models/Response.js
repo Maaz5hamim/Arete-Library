@@ -17,7 +17,8 @@ const responseSchema = new mongoose.Schema
     status: { type: String, enum: [ 'Active', 'Submitted'], default: 'Active' },  
     totalScore: Number,
     responseTime: Number,
-    previousScore: Number
+    previousScore: Number,
+    previousTotal: Number
 }, 
 { timestamps: true })
 
