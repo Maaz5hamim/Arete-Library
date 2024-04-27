@@ -16,13 +16,16 @@ const responseSchema = new mongoose.Schema
     }],
     submittedAt: Date,
     status: { type: String, enum: [ 'Active', 'Submitted'], default: 'Active' },  
-    totalScore: Number
+    totalScore: Number,
+    responseTime: Number,
+    previousScore: Number
 }, 
 { timestamps: true })
 
 responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async function(next) {
     const responses = this._update.responses
     if (!responses) {return next()}
+
     let totalScore = 0
 
     for (const response of responses) 
@@ -31,7 +34,7 @@ responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async
 
         if (question.type === 'True/False') 
         {
-            if (response.answer[0] === 'false' && !question.isTrue || response.answer[0] === 'true' && question.isTrue) {
+            if (response.answer[0] === 'False' && !question.isTrue || response.answer[0] === 'True' && question.isTrue) {
                 response.score = question.points
                 totalScore += question.points
             }
@@ -50,6 +53,7 @@ responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async
 
     this._update.submittedAt = Date.now()
     this._update.totalScore = totalScore
+    this._update.responseTime = Date.now() - this.createdAt 
 
     next()
 })

@@ -2,26 +2,32 @@ const mongoose = require('mongoose')
 
 const summarySchema = new mongoose.Schema(
 {
-    responses: Number,
-    questions:
-    [
-        {
-            question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
-            totalResponses: Number,
-            totalSkipped: Number,
-            totalCorrect: Number,
-            averageResponseTime: Number,
-            highestScore: Number,
-            averageScore: Number
-        }
-    ],
     participants:
     [
         {
-            studentName: String,
-            studentErp: Number,
             sectionName: String,
-            response:{type: mongoose.Schema.Types.ObjectId, ref: 'Response'}
+            response: Number,
+            responseTime: Number,
+            students: 
+            [
+                {
+                    name: String,
+                    erp: Number,
+                    response:{type: mongoose.Schema.Types.ObjectId, ref: 'Response'}
+                }
+            ],
+            questions: 
+            [
+                {
+                    question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
+                    totalResponses: Number,
+                    totalSkipped: Number,
+                    totalCorrect: Number,
+                    averageResponseTime: Number,
+                    highestScore: Number,
+                    averageScore: Number
+                }
+            ]    
         }
     ],
     generated: {type: Date}
