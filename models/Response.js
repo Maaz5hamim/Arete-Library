@@ -12,7 +12,6 @@ const responseSchema = new mongoose.Schema
         answer: [String], 
         score: Number, 
         feedback: String,
-        responseTime: Number 
     }],
     submittedAt: Date,
     status: { type: String, enum: [ 'Active', 'Submitted'], default: 'Active' },  
@@ -53,7 +52,6 @@ responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async
 
     this._update.submittedAt = Date.now()
     this._update.totalScore = totalScore
-    this._update.responseTime = Date.now() - this.createdAt 
 
     next()
 })
