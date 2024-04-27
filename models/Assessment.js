@@ -6,7 +6,9 @@ const summarySchema = new mongoose.Schema(
     [
         {
             sectionName: String,
-            response: Number,
+            responses: Number,
+            averageScore: Number,
+            highestScore: Number,
             responseTime: Number,
             students: 
             [
@@ -30,7 +32,8 @@ const summarySchema = new mongoose.Schema(
             ]    
         }
     ],
-    generated: {type: Date}
+    totalMarks: Number,
+    generated: Date
 })
 
 
@@ -39,6 +42,7 @@ const assessmentSchema = new mongoose.Schema(
     teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', required: true },
     class: {type: String},
     title: { type: String, required: true },
+    totalMarks: {type: Number},
     participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Section' }],
     description : {type: String},
     coverImage: { type: String },
@@ -68,6 +72,25 @@ const assessmentSchema = new mongoose.Schema(
 {
     timestamps: true,
 })
+
+assessmentSchema.post(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async function(doc) {
+    try {
+      const updatedAssessment = await this.model.findOne(this.getQuery()).populate({
+        path: 'questionBank.question',
+        select: 'points'
+      });
+  
+      if (updatedAssessment.questionBank) {
+        const totalMarks = updatedAssessment.questionBank.reduce((total, question) => {
+          return total + question.points;
+        }, 0);
+        
+        await this.model.findByIdAndUpdate(doc._id, { totalMarks: totalMarks });
+      }
+    } catch (error) {
+      console.error('Error updating totalMarks:', error);
+    }
+  });
 
 assessmentSchema.index({ teacher: 1 });
 
