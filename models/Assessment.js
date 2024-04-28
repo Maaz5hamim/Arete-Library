@@ -32,7 +32,6 @@ const summarySchema = new mongoose.Schema(
             ]    
         }
     ],
-    totalMarks: Number,
     generated: Date
 })
 
@@ -73,24 +72,30 @@ const assessmentSchema = new mongoose.Schema(
     timestamps: true,
 })
 
+
 assessmentSchema.post(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async function(doc) {
-    try {
-      const updatedAssessment = await this.model.findOne(this.getQuery()).populate({
-        path: 'questionBank.question',
-        select: 'points'
-      });
+    try 
+    {
+      modifiedFields = this.getUpdate().$addToSet
+
+      if (modifiedFields && modifiedFields.questionBank) 
+      {
+        const assessment = await Assessment.findById(doc._id).populate({
+              path: 'questionBank.question',
+              select: 'points'
+          })
+
+          let totalMarks = 0
+          totalMarks = assessment.questionBank.reduce((total, item) => {
+            return total + item.question.points
+          }, 0)
   
-      if (updatedAssessment.questionBank) {
-        const totalMarks = updatedAssessment.questionBank.reduce((total, question) => {
-          return total + question.points;
-        }, 0);
-        
-        await this.model.findByIdAndUpdate(doc._id, { totalMarks: totalMarks });
+          await Assessment.updateOne({ _id: doc._id }, { $set: { totalMarks: totalMarks } })
       }
     } catch (error) {
-      console.error('Error updating totalMarks:', error);
+      console.error('Error updating totalMarks:', error)
     }
-  });
+  })
 
 assessmentSchema.index({ teacher: 1 });
 
