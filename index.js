@@ -5,7 +5,7 @@ const Question = require('./models/Question')
 const Response = require('./models/Response')
 const Section = require('./models/Section')
 const Teacher = require('./models/Teacher')
+const User = require('./models/User')
 
-console.log('Welcome to Arete Library')
 
-module.exports = {Student, Assessment, Question, Response, Teacher, Section, Class}
+module.exports = {Student, Assessment, Question, Response, Teacher, Section, Class, User}
