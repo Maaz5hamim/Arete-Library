@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Response = require('./Response')
 
 const summarySchema = new mongoose.Schema(
 {
@@ -69,6 +70,18 @@ const assessmentSchema = new mongoose.Schema(
 }, 
 {
     timestamps: true,
+})
+
+assessmentSchema.pre('remove', async function (next) 
+{
+    const assessmentToDelete = this
+    try 
+    {
+      await Response.deleteMany({ assessment: new mongoose.Types.ObjectId(this._id) })
+      console.log('Deleted associated responses for assessment:', classToDelete.className)
+    } 
+    catch (error) {console.error('Error deleting responses:', error.message)}
+    next()
 })
 
 assessmentSchema.index({ teacher: 1 });

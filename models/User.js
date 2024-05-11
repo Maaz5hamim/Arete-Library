@@ -51,10 +51,10 @@ const userSchema = new mongoose.Schema(
             type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Class'}],  
             default: undefined
         }
-    })
+})
     
-    userSchema.index({ 'email': 1 })
-    
-    const User = mongoose.model('User', userSchema)
+userSchema.index({ 'email': 1 })
 
-    module.exports = User
+const User = mongoose.model('User', userSchema)
+
+module.exports = User
