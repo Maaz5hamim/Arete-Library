@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const questionSchema = new mongoose.Schema(
 {
-    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', required: true },
+    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     topic: {
         type: String,
         required: true

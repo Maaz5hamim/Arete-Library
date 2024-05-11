@@ -37,7 +37,7 @@ const summarySchema = new mongoose.Schema(
 
 const assessmentSchema = new mongoose.Schema(
 {
-    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', required: true },
+    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     class: {type: String},
     title: { type: String, required: true },
     totalMarks: {type: Number},

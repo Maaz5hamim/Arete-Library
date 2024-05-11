@@ -4,7 +4,7 @@ const sectionSchema = new mongoose.Schema(
 {
     sectionName: { type: String, required: true, trim: true },
     class: { type: mongoose.Schema.Types.ObjectId, ref: 'Class', required: true },
-    roster: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Student' }],
+    roster: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     assessments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Assessment' }],
 },
 {

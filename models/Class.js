@@ -4,7 +4,7 @@ const debug = require('debug')('mongoose')
 const classSchema = new mongoose.Schema
 ({
     className: { type: String, required: true, trim: true},
-    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'Teacher', required: true },
+    teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     sections: [{type: mongoose.Schema.Types.ObjectId, ref: 'Section'}] 
 })
 

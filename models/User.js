@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema(
     {
-        firstName: { type: String, required: true, trim: true },
-        lastName: { type: String, required: true, trim: true },
+        name: { type: String, required: true, trim: true },
         email: 
         {
             type: String,
@@ -18,14 +17,14 @@ const userSchema = new mongoose.Schema(
         role:
         {
             type: String,
-            enum: ['Teacher', 'Student'],
+            enum: ['teacher', 'student'],
             required: true
         },
         password:
         {
             type:String, 
             required: function() {
-                return this.role === 'Teacher';
+                return this.role === 'teacher';
             }
         },
         erp: 
@@ -33,26 +32,24 @@ const userSchema = new mongoose.Schema(
             type: Number, 
             unique: true, 
             required: function() {
-                return this.role === 'Student';
+                return this.role === 'student';
             } 
 
         },
         enrolledSections: 
         {
             type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Section'}],
-            required: function() {return this.role === 'Student'}
+            default: undefined
         },
         attemptedAssessments: 
         {
             type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Assessment' }],
-            required: function() {return this.role === 'Student'}
+            default: undefined
         },
         classes: 
         {
             type: [{type: mongoose.Schema.Types.ObjectId, ref: 'Class'}],  
-            required: function() {
-                return this.role === 'Teacher';
-            }
+            default: undefined
         }
     })
     
