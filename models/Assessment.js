@@ -6,6 +6,7 @@ const summarySchema = new mongoose.Schema(
     participants:
     [
         {
+            sectionId: {type: mongoose.Schema.Types.ObjectId, ref: 'Section'},
             sectionName: String,
             responses: Number,
             averageScore: Number,
