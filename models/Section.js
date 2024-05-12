@@ -12,24 +12,24 @@ const sectionSchema = new mongoose.Schema(
     timestamps: true,
 })
 
-sectionSchema.pre('remove', async function (next) 
+sectionSchema.pre('findOneAndDelete', async function (next) 
 { 
-    try 
-    {
-      const studentsToUpdate = this.roster
+    const sectionId = this.getQuery() && this.getQuery()['_id']
+    const deletedSection = await mongoose.model('Section').findById(sectionId)
 
-      await User.updateMany
-      (
-        { _id: { $in: studentsToUpdate } }, 
-        { $pull: { enrolledSections: this._id } }
-      )
+    await mongoose.model('User').updateMany
+    (
+      { _id: { $in: deletedSection.roster } }, 
+      { $pull: { enrolledSections: sectionId } }
+    )
 
-      console.log('Updated enrolledSections for students on section deletion')
-    } 
-    catch (error) {console.error('Error updating student enrolledSections:', error.message)}
+    const classId = deletedSection.class
+    const updatedClass = await mongoose.model('Class').findByIdAndUpdate( classId, { $pull: { sections: sectionId } })
+    if(!updatedClass){throw new Error('Class not found')}
+
     next()
 })
-  
+
 const Section = mongoose.model('Section', sectionSchema)
 
 module.exports = Section

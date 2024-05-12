@@ -8,14 +8,19 @@ const classSchema = new mongoose.Schema
     sections: [{type: mongoose.Schema.Types.ObjectId, ref: 'Section'}] 
 })
 
-classSchema.pre('remove', async function (next) 
+classSchema.pre('findOneAndDelete', async function (next) 
 {
-    try 
+
+    const classId = this.getQuery() && this.getQuery()['_id']
+    const deletedClass = await mongoose.model('Class').findById(classId)
+    for (const id of deletedClass.sections) 
     {
-      await Section.deleteMany({ _id: { $in: this.sections } })
-      console.log('Deleted associated sections for class:', this.className)
-    } 
-    catch (error) {console.error('Error deleting sections:', error.message)}
+        await mongoose.model('Section').findByIdAndDelete(id)
+        console.log(`Deleted section with ID: ${id}`)
+    }
+    const teacher = await mongoose.model('User').findByIdAndUpdate(deletedClass.teacher, { $pull: { classes: classId } })
+    if(!teacher){throw new Error('User not found')}
+        
     next()
 })
 
