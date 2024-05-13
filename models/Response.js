@@ -9,14 +9,14 @@ const responseSchema = new mongoose.Schema
     responses: 
     [{ 
         questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true }, 
-        answer: [String], 
+        answer: [String],
+        responseTime: Number, 
         score: Number, 
         feedback: String,
     }],
     submittedAt: Date,
     status: { type: String, enum: [ 'Active', 'Submitted'], default: 'Active' },  
     totalScore: Number,
-    responseTime: Number,
     previousScore: Number,
     previousTotal: Number
 }, 
