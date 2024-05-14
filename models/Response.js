@@ -1,6 +1,18 @@
 const mongoose = require('mongoose')
 const Question = require('./Question')
 
+const flaggingSchema = new mongoose.Schema
+({
+    type: { type: String, required: true },
+    timestamp: { type: Number, required: true },
+    duration: { type: Number, required: true }, 
+    image: 
+    {   
+        type: String, 
+        required: function() {return this.role != 'tab switch'} 
+    } 
+  })
+
 const responseSchema = new mongoose.Schema
 ({
     assessment: { type: mongoose.Schema.Types.ObjectId, ref: 'Assessment', required: true }, 
@@ -18,7 +30,9 @@ const responseSchema = new mongoose.Schema
     status: { type: String, enum: [ 'Active', 'Submitted'], default: 'Active' },  
     totalScore: Number,
     previousScore: Number,
-    previousTotal: Number
+    previousTotal: Number,
+    flaggings: [flaggingSchema]
+
 }, 
 { timestamps: true })
 

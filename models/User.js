@@ -30,7 +30,6 @@ const userSchema = new mongoose.Schema(
         erp: 
         { 
             type: Number, 
-            unique: true, 
             required: function() {
                 return this.role === 'student';
             } 
