@@ -6,11 +6,7 @@ const flaggingSchema = new mongoose.Schema
     type: { type: String, required: true },
     timestamp: { type: Number, required: true },
     duration: { type: Number, required: true }, 
-    image: 
-    {   
-        type: String, 
-        required: function() {return this.role != 'tab switch'} 
-    } 
+    image: {type: String} 
   })
 
 const responseSchema = new mongoose.Schema
