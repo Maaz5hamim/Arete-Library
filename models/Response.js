@@ -3,9 +3,9 @@ const Question = require('./Question')
 
 const flaggingSchema = new mongoose.Schema
 ({
-    type: { type: String, required: true },
-    timestamp: { type: Number, required: true },
-    duration: { type: Number, required: true }, 
+    type: { type: String },
+    timestamp: { type: Number },
+    duration: { type: Number }, 
     image: {type: String} 
   })
 
