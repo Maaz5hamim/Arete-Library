@@ -6,4 +6,4 @@ const Section = require('./models/Section')
 const User = require('./models/User')
 
 
-module.exports = {Student, Assessment, Question, Response, Teacher, Section, Class, User}
+module.exports = {Assessment, Question, Response, Section, Class, User}
