@@ -27,7 +27,8 @@ const responseSchema = new mongoose.Schema
     totalScore: Number,
     previousScore: Number,
     previousTotal: Number,
-    flaggings: [flaggingSchema]
+    flaggings: [flaggingSchema],
+    penalty: Number
 
 }, 
 { timestamps: true })
