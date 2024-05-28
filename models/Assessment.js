@@ -47,13 +47,17 @@ const assessmentSchema = new mongoose.Schema(
     description : {type: String},
     coverImage: { type: String },
     status : {type: String},
-    stoppingCriteria: {type: Number},
     configurations: 
     {
         openDate: { type: Date, required: true },
         duration: { type: Number, required: true },
         closeDate: { type: Date, required: true },
-        adaptiveTesting: { type: Boolean, default: false },
+        adaptiveTesting: 
+        { 
+            active: {type: Boolean, default: false},
+            totalMarks: {type: Number},
+            stoppingCriteria: {type: Number} 
+        },
         monitoring: { type: Boolean, default: false },
         instantFeedback: { type: Boolean, default: false },
         navigation: { type: Boolean, default: false },
