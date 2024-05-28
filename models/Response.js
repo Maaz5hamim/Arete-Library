@@ -34,7 +34,10 @@ const responseSchema = new mongoose.Schema
 
 responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async function(next) {
     const responses = this._update.responses
-    if (!responses) {return next()}
+    const status = this._update.status
+    const score = this._update.totalScore
+
+    if (!status || (score && score!=null)) {return next()}
 
     let totalScore = 0
 

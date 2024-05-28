@@ -47,6 +47,7 @@ const assessmentSchema = new mongoose.Schema(
     description : {type: String},
     coverImage: { type: String },
     status : {type: String},
+    stoppingCriteria: {type: Number},
     configurations: 
     {
         openDate: { type: Date, required: true },
