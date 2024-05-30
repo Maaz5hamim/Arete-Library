@@ -28,7 +28,7 @@ const responseSchema = new mongoose.Schema
     previousScore: Number,
     previousTotal: Number,
     flaggings: [flaggingSchema],
-    penalty: Number
+    penalty: {type: Number, default: 1}
 
 }, 
 { timestamps: true })
@@ -38,7 +38,7 @@ responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async
     const status = this._update.status
     const score = this._update.totalScore
 
-    if (!status || (score && score!=null)) {return next()}
+    if (!status) {return next()}
 
     let totalScore = 0
 
@@ -66,7 +66,9 @@ responseSchema.pre(["updateOne", "findByIdAndUpdate", "findOneAndUpdate"], async
     }
 
     this._update.submittedAt = Date.now()
-    this._update.totalScore = totalScore
+    if(score && score != null){this._update.totalScore = score}
+    else{this._update.totalScore = totalScore}
+    
 
     next()
 })

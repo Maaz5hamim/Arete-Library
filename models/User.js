@@ -30,9 +30,9 @@ const userSchema = new mongoose.Schema(
         erp: 
         { 
             type: Number, 
-            required: function() {
-                return this.role === 'student';
-            } 
+            // required: function() {
+            //     return this.role === 'student';
+            // } 
 
         },
         enrolledSections: 
